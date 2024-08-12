@@ -24,7 +24,7 @@ const defaultValue = "/";
                 class="border-none"
             >
                 <AccordionTrigger
-                    class="text-white py-3 px-2 hover:no-underline font-bold hover:bg-gray-500 rounded-lg"
+                    class="text-white py-3 px-3 hover:no-underline font-bold hover:bg-gray-500 transition duration-200 rounded-lg"
                     :class="getActiveMenu(childMenu?.name)"
                 >
                     {{ childMenu.displayName }}
@@ -36,7 +36,7 @@ const defaultValue = "/";
                         class="rounded-lg hover:bg-gray-500 mb-2"
                         :class="getActiveMenu(route?.name)"
                     >
-                        <RouterLink class="block py-3 px-1 text-white font-semibold pl-2" :to="route?.path">
+                        <RouterLink class="block py-3 px-1 text-white font-semibold pl-3" :to="route?.path">
                             {{ route?.displayName }}
                         </RouterLink>
                     </div>
@@ -48,7 +48,7 @@ const defaultValue = "/";
 
 <style lang="scss">
 .active {
-    @apply bg-gray-600;
+    @apply bg-gray-700;
     color: #fff;
 }
 </style>

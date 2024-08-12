@@ -1,13 +1,47 @@
 <script setup>
 // * LIB
+import { ref } from "vue";
+import { useRouter } from "vue-router";
 import { HamburgerMenuIcon, AvatarIcon, EnterIcon } from "@radix-icons/vue";
 
 // * IMPORT
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import LoadingModal from "@/components/app/loading/modal.vue";
+import { useAuthStore } from "@/store/modules/auth";
+
+const router = useRouter();
+const authStore = useAuthStore();
+
+const loading = ref(false);
 
 // * FUNCTIONS
-const handleLogout = () => {};
+/**
+ * Logout function
+ * This function logs out the user by calling the logout function from the authStore.
+ * After logging out, it deletes the token, and redirects the user to the login page.
+ * This function is called when the user clicks on the logout button in the header component.
+ */
+const handleLogout = () => {
+    // Call the logout function from the authStore
+    loading.value = true;
+    authStore
+        .logout()
+        .then(() => {
+            // Delete the token
+            authStore.deleteToken();
+            // Redirect the user to the login page
+            router.push({ name: "login" });
+        })
+        .catch(error => {
+            // If there is an error, delete the token and redirect the user to the login page
+            authStore.deleteToken();
+            router.push({ name: "login" });
+        })
+        .finally(() => {
+            loading.value = false;
+        });
+};
 </script>
 
 <template>
@@ -33,6 +67,7 @@ const handleLogout = () => {};
             </div>
         </div>
     </header>
+    <LoadingModal v-if="loading" />
 </template>
 
 <style lang="scss" scoped></style>
