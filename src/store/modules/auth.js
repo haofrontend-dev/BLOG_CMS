@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 
-import { login, logout } from "@/api/auth.api";
+import { login, logout, renewToken } from "@/api/auth.api";
 import { setToken, removeToken } from "@/utils/cache/storage";
 
 export const useAuthStore = defineStore("auth", {
@@ -43,6 +43,13 @@ export const useAuthStore = defineStore("auth", {
          */
         async logout() {
             await logout();
+        },
+
+        async renewToken() {
+            const result = await renewToken();
+            if (result?.metadata?.accessToken) {
+                this.setToken(result?.metadata?.accessToken);
+            }
         }
     }
 });

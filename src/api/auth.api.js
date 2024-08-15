@@ -11,8 +11,17 @@ export const login = data => {
 };
 
 export const logout = () => {
+    return handleAsyncRequest("logout", () =>
+        request({
+            url: "/auth/logout",
+            method: "POST"
+        })
+    );
+};
+
+export const renewToken = () => {
     return request({
-        url: "/auth/logout",
-        method: "POST"
+        url: "/auth/renew-token",
+        method: "GET"
     });
 };

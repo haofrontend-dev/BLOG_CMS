@@ -1,6 +1,6 @@
 <script setup>
 // * LIB
-import { ref } from "vue";
+import { ref, defineEmits, inject } from "vue";
 import { useRouter } from "vue-router";
 import { HamburgerMenuIcon, AvatarIcon, EnterIcon } from "@radix-icons/vue";
 
@@ -9,10 +9,15 @@ import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import LoadingModal from "@/components/app/loading/modal.vue";
 import { useAuthStore } from "@/store/modules/auth";
+import { useSystemStore } from "@/store/modules/system";
+import { cn } from "@/lib/utils";
 
 const router = useRouter();
+const swal = inject("$swal");
 const authStore = useAuthStore();
+const systemStore = useSystemStore();
 
+const emits = defineEmits(["clickBar"]);
 const loading = ref(false);
 
 // * FUNCTIONS
@@ -34,9 +39,10 @@ const handleLogout = () => {
             router.push({ name: "login" });
         })
         .catch(error => {
-            // If there is an error, delete the token and redirect the user to the login page
-            authStore.deleteToken();
-            router.push({ name: "login" });
+            swal.fire({
+                icon: "error",
+                text: "Đã có lỗi xãy ra!"
+            });
         })
         .finally(() => {
             loading.value = false;
@@ -45,9 +51,12 @@ const handleLogout = () => {
 </script>
 
 <template>
-    <header class="w-full fixed top-0 left-0 right-0 h-[50px] shadow-md lg:pl-[250px]">
+    <header
+        class="fixed left-0 top-0 right-0 h-[50px] shadow-md transition-all"
+        :class="cn([systemStore.isSidebar ? 'lg:left-[250px]' : 'lg:left-0'])"
+    >
         <div class="flex items-center justify-between h-full w-full">
-            <Button class="ml-2" variant="outline" size="icon">
+            <Button class="ml-2" variant="outline" size="icon" @click="emits('clickBar')">
                 <HamburgerMenuIcon class="w-4 h-4" />
             </Button>
             <div class="flex items-center gap-4 px-4">

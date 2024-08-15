@@ -1,9 +1,11 @@
 <template>
-    <div>
-        <h1>Post</h1>
+    <div class="w-full">
+        <PostSubToltal />
     </div>
 </template>
 
-<script setup></script>
+<script setup>
+import PostSubToltal from "@/components/post/SubTotal.vue";
+</script>
 
 <style lang="scss" scoped></style>

@@ -11,7 +11,7 @@
     "dependencies": {
         "@radix-icons/vue": "^1.0.0",
         "@vee-validate/zod": "^4.13.2",
-        "@vueuse/core": "^10.11.0",
+        "@vueuse/core": "^10.11.1",
         "axios": "^1.7.2",
         "class-variance-authority": "^0.7.0",
         "clsx": "^2.1.1",
@@ -24,10 +24,12 @@
         "tailwind-merge": "^2.4.0",
         "tailwindcss-animate": "^1.0.7",
         "uuid": "^10.0.0",
+        "vaul-vue": "^0.2.0",
         "vee-validate": "^4.13.2",
         "vue": "^3.4.31",
         "vue-router": "4",
         "vue-sweetalert2": "^5.0.11",
+        "vue3-click-away": "^1.2.4",
         "zod": "^3.23.8"
     },
     "devDependencies": {

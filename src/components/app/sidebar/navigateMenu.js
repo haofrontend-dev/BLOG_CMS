@@ -34,7 +34,18 @@ export default {
                     {
                         name: "/posts",
                         displayName: "Bài viết",
-                        path: "/posts"
+                        children: [
+                            {
+                                name: "/posts",
+                                displayName: "Tất cả bài viết",
+                                path: "/posts"
+                            },
+                            {
+                                name: "/posts/create",
+                                displayName: "Tạo bài viết",
+                                path: "/posts/create"
+                            }
+                        ]
                     }
                 ]
             }

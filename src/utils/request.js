@@ -5,11 +5,12 @@ import { getToken } from "./cache/storage";
 import { getDeviceId } from "@/helpers/device";
 import { rateLimiter } from "@/helpers/rateLimiter";
 import SlugResponse from "@/constants/slugResponse";
+import { useAuthStore } from "@/store/modules/auth";
 
 const createService = () => {
     const instance = axios.create();
     const deviceId = getDeviceId();
-
+    let originalRequest = null;
     const headers = {
         "X-DEVICE-ID": deviceId
     };
@@ -26,16 +27,33 @@ const createService = () => {
             if (responseType === "blob" || responseType === "arraybuffer") return apiData;
             return _.get(apiData, "data", apiData);
         },
-        error => {
-            // status 是 HTTP 状态码
+        async error => {
             const status = _.get(error, "response.status");
+            const slug = _.get(error, "response.data.message");
+            originalRequest = error.config;
+
+            // Xử lý các lỗi khác
             switch (status) {
                 case 400:
                     error.message = "Request Error";
                     break;
                 case 401:
-                    // Token 过期时
-                    error.message = "Login expired";
+                    const authStore = useAuthStore();
+                    error.message = "Login denied";
+                    if (slug === "access_expired") {
+                        try {
+                            await authStore.renewToken();
+                            const token = getToken();
+                            originalRequest.headers.Authorization = `Bearer ${token}`;
+                            console.log(originalRequest);
+
+                            return request(originalRequest);
+                        } catch (renewError) {
+                            return Promise.reject(renewError);
+                        }
+                    } else if (slug === "invalid_token") {
+                        authStore.deleteToken();
+                    }
                     break;
                 case 403:
                     error.message = "Access denied";

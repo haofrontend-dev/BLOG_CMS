@@ -20,22 +20,22 @@ const routes = [
                 name: "dashboard",
                 component: () => import("@/views/dashboard/index.vue"),
                 meta: {
-                    title: "Dashboard"
+                    title: "Bảng tin"
                 }
             },
             {
                 path: "/posts",
                 name: "post",
-                component: () => import("@/views/dashboard/index.vue"),
+                component: () => import("@/views/posts/index.vue"),
                 meta: {
-                    title: "Quản lý bài viết"
+                    title: "Tất cả bài viết"
                 }
             }
         ]
     },
     {
         path: "/login",
-        name: "login",
+        name: "authLogin",
         component: AuthLayout,
         children: [
             {
