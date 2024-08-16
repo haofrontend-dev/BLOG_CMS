@@ -31,7 +31,7 @@ const subTitles = [
 
 <template>
     <Separator class="my-4" label="Or" />
-    <div class="flex h-5 items-center space-x-3 text-sm">
+    <div class="flex h-5 items-center flex-wrap space-x-3 text-sm">
         <template v-for="(sub, index) in subTitles" :key="index">
             <button
                 class="hover:text-primary-1"

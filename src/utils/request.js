@@ -32,7 +32,6 @@ const createService = () => {
             const slug = _.get(error, "response.data.message");
             originalRequest = error.config;
 
-            // Xử lý các lỗi khác
             switch (status) {
                 case 400:
                     error.message = "Request Error";

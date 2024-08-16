@@ -20,7 +20,8 @@ const routes = [
                 name: "dashboard",
                 component: () => import("@/views/dashboard/index.vue"),
                 meta: {
-                    title: "Bảng tin"
+                    title: "Bảng tin",
+                    key: "new"
                 }
             },
             {
@@ -28,7 +29,17 @@ const routes = [
                 name: "post",
                 component: () => import("@/views/posts/index.vue"),
                 meta: {
-                    title: "Tất cả bài viết"
+                    title: "Tất cả bài viết",
+                    key: "post"
+                }
+            },
+            {
+                path: "/posts/create",
+                name: "postCreate",
+                component: () => import("@/views/posts/create.vue"),
+                meta: {
+                    title: "Tạo bài viết",
+                    key: "post"
                 }
             }
         ]

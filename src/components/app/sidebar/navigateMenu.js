@@ -1,3 +1,5 @@
+import { DrawingPinIcon, TokensIcon } from "@radix-icons/vue";
+
 export default {
     root: {
         name: "/",
@@ -9,16 +11,17 @@ export default {
                 displayName: "News",
                 children: [
                     {
-                        name: "/",
+                        name: "new",
                         displayName: "Bản tin",
+                        icon: TokensIcon,
                         children: [
                             {
-                                name: "/",
+                                name: "overview",
                                 displayName: "Tổng quan",
                                 path: "/"
                             },
                             {
-                                name: "/update-core",
+                                name: "update",
                                 displayName: "Cập nhật",
                                 path: "/update-core"
                             }
@@ -32,16 +35,17 @@ export default {
                 displayName: "Function",
                 children: [
                     {
-                        name: "/posts",
+                        name: "post",
                         displayName: "Bài viết",
+                        icon: DrawingPinIcon,
                         children: [
                             {
-                                name: "/posts",
-                                displayName: "Tất cả bài viết",
+                                name: "postAll",
+                                displayName: "QL Tất cả bài viết",
                                 path: "/posts"
                             },
                             {
-                                name: "/posts/create",
+                                name: "postCreate",
                                 displayName: "Tạo bài viết",
                                 path: "/posts/create"
                             }
