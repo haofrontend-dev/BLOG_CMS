@@ -70,6 +70,10 @@
     }
 }
 
+body {
+    background-color: #e4e7f0;
+}
+
 @layer base {
     * {
         @apply border-border;

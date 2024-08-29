@@ -29,7 +29,6 @@ const createService = () => {
         },
         async error => {
             const status = _.get(error, "response.status");
-            const slug = _.get(error, "response.data.message");
             originalRequest = error.config;
 
             switch (status) {
@@ -38,19 +37,14 @@ const createService = () => {
                     break;
                 case 401:
                     const authStore = useAuthStore();
-                    error.message = "Login denied";
-                    if (slug === "access_expired") {
-                        try {
-                            await authStore.renewToken();
+                    try {
+                        const { success } = await authStore.dispatchRenewToken();
+                        if (success) {
                             const token = getToken();
                             originalRequest.headers.Authorization = `Bearer ${token}`;
-                            console.log(originalRequest);
-
                             return request(originalRequest);
-                        } catch (renewError) {
-                            return Promise.reject(renewError);
                         }
-                    } else if (slug === "invalid_token") {
+                    } catch (renewError) {
                         authStore.deleteToken();
                     }
                     break;

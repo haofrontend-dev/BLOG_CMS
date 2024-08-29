@@ -21,38 +21,24 @@ const emits = defineEmits(["clickBar"]);
 const loading = ref(false);
 
 // * FUNCTIONS
-/**
- * Logout function
- * This function logs out the user by calling the logout function from the authStore.
- * After logging out, it deletes the token, and redirects the user to the login page.
- * This function is called when the user clicks on the logout button in the header component.
- */
-const handleLogout = () => {
+
+const handleLogout = async () => {
     // Call the logout function from the authStore
     loading.value = true;
-    authStore
-        .logout()
-        .then(() => {
-            // Delete the token
-            authStore.deleteToken();
-            // Redirect the user to the login page
-            router.push({ name: "login" });
-        })
-        .catch(error => {
-            swal.fire({
-                icon: "error",
-                text: "Đã có lỗi xãy ra!"
-            });
-        })
-        .finally(() => {
-            loading.value = false;
-        });
+    try {
+        await authStore.dispatchLogout();
+        router.push({ name: "login" });
+    } catch (error) {
+        router.push({ name: "login" });
+    } finally {
+        loading.value = false;
+    }
 };
 </script>
 
 <template>
     <header
-        class="fixed left-0 top-0 right-0 h-[50px] shadow-md transition-all"
+        class="fixed left-0 top-0 right-0 h-[50px] shadow-md transition-all bg-white"
         :class="cn([systemStore.isSidebar ? 'lg:left-[250px]' : 'lg:left-0'])"
     >
         <div class="flex items-center justify-between h-full w-full">

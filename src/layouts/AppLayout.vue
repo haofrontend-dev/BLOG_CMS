@@ -23,7 +23,7 @@ const titlePage = computed(() => router.currentRoute.value.meta.title);
         />
         <div class="flex-1 transition duration-150 w-full">
             <AppHeader @click-bar="handleToggleSidebar" />
-            <main class="mt-[50px]">
+            <main class="mt-[50px] overflow-y-auto max-h-[90vh]">
                 <AppContainer :title="titlePage">
                     <RouterView />
                 </AppContainer>

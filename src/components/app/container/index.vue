@@ -9,7 +9,7 @@ defineProps({
 </script>
 
 <template>
-    <div class="p-8 overflow-y-auto">
+    <div class="p-8">
         <div class="title">
             <h1 class="text-2xl font-semibold text-slate-700">
                 {{ title }}

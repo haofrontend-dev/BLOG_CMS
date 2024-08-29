@@ -47,13 +47,8 @@ const getActiveMenu = routes => {
                         {{ childMenu.displayName }}
                     </div>
                 </AccordionTrigger>
-                <AccordionContent class="pl-3 mt-2">
-                    <div
-                        v-for="route in childMenu?.children"
-                        :key="route.name"
-                        class="rounded-lg hover:bg-gray-500 mb-2"
-                        :class="{ active: currentRoutePath === route?.path }"
-                    >
+                <AccordionContent v-for="route in childMenu?.children" :key="route.name" class="pl-3 mt-2 pb-0">
+                    <div class="rounded-lg hover:bg-gray-500" :class="{ active: currentRoutePath === route?.path }">
                         <RouterLink class="flex items-center gap-2 py-3 px-1 text-white font-semibold pl-3" :to="route?.path">
                             <DotIcon />
                             <span>

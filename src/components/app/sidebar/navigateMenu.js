@@ -1,4 +1,4 @@
-import { DrawingPinIcon, TokensIcon } from "@radix-icons/vue";
+import { DrawingPinIcon, TokensIcon, PersonIcon } from "@radix-icons/vue";
 
 export default {
     root: {
@@ -36,7 +36,7 @@ export default {
                 children: [
                     {
                         name: "post",
-                        displayName: "Bài viết",
+                        displayName: "QL Bài viết",
                         icon: DrawingPinIcon,
                         children: [
                             {
@@ -48,11 +48,35 @@ export default {
                                 name: "postCreate",
                                 displayName: "Tạo bài viết",
                                 path: "/posts/create"
+                            },
+                            {
+                                name: "postCategory",
+                                displayName: "Quản lý danh mục",
+                                path: "/posts/category"
                             }
                         ]
                     }
                 ]
             }
         }
+        // {
+        //     root: {
+        //         displayName: "Members",
+        //         children: [
+        //             {
+        //                 name: "member",
+        //                 displayName: "QL Thành viên",
+        //                 icon: PersonIcon,
+        //                 children: [
+        //                     {
+        //                         name: "allUser",
+        //                         displayName: "QL Tất cả thành viên",
+        //                         path: "/"
+        //                     }
+        //                 ]
+        //             }
+        //         ]
+        //     }
+        // }
     ]
 };

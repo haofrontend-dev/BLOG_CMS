@@ -10,7 +10,6 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Input } from "@/components/ui/input";
 import { LoginShchema } from "@/schema/loginSchema";
 import { useAuthStore } from "@/store/modules/auth";
-import SlugResponse from "@/constants/slugResponse";
 import MessageResponse from "@/constants/messageResponse";
 
 const authStore = useAuthStore();
@@ -22,23 +21,25 @@ const { isFieldDirty, handleSubmit, errors } = useForm({
     validationSchema: LoginShchema
 });
 
-const onSubmit = handleSubmit(values => {
+const onSubmit = handleSubmit(async values => {
     loading.value = true;
-    authStore
-        .login({
+    try {
+        const { success } = await authStore.dispatchLogin({
             indentifier: values.username,
             password: values.password
-        })
-        .then(res => {
-            router.push({ name: "admin" });
-        })
-        .catch(error => {
-            errorLogin.value =
-                error?.message === SlugResponse.LIMIT_RATE ? MessageResponse.LIMIT_RATE : MessageResponse.LOGIN_BAD;
-        })
-        .finally(() => {
-            loading.value = false;
         });
+
+        if (!success) {
+            errorLogin.value = MessageResponse.LOGIN_BAD;
+            return;
+        }
+
+        return router.push({ name: "admin" });
+    } catch (error) {
+        console.error("Handle error: ", error);
+    } finally {
+        loading.value = false;
+    }
 });
 </script>
 
