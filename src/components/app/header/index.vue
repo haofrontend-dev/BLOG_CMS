@@ -1,21 +1,22 @@
 <script setup>
 // * LIB
-import { ref, defineEmits, inject } from "vue";
+import { ref, defineEmits } from "vue";
 import { useRouter } from "vue-router";
-import { HamburgerMenuIcon, AvatarIcon, EnterIcon } from "@radix-icons/vue";
+import { HamburgerMenuIcon, AvatarIcon, EnterIcon, PersonIcon } from "@radix-icons/vue";
 
 // * IMPORT
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import LoadingModal from "@/components/app/loading/modal.vue";
 import { useAuthStore } from "@/store/modules/auth";
+import { useProfileStore } from "@/store/modules/profile";
 import { useSystemStore } from "@/store/modules/system";
 import { cn } from "@/lib/utils";
 
 const router = useRouter();
-const swal = inject("$swal");
 const authStore = useAuthStore();
 const systemStore = useSystemStore();
+const profileStore = useProfileStore();
 
 const emits = defineEmits(["clickBar"]);
 const loading = ref(false);
@@ -52,7 +53,18 @@ const handleLogout = async () => {
                             <AvatarIcon class="w-4 h-4" />
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent class="w-20" align="end">
+                    <DropdownMenuContent class="w-40" align="end">
+                        <DropdownMenuItem>{{ profileStore.profile?.username }}</DropdownMenuItem>
+                        <DropdownMenuItem
+                            class="cursor-pointer"
+                            @click="
+                                router.push({
+                                    name: 'profile'
+                                })
+                            "
+                        >
+                            <PersonIcon class="mr-2 h-4 w-4" /> Profile
+                        </DropdownMenuItem>
                         <DropdownMenuItem class="cursor-pointer" @click="handleLogout">
                             <EnterIcon class="mr-2 h-4 w-4" />
                             <span>Log out</span>

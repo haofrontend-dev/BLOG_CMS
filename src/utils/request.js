@@ -37,16 +37,20 @@ const createService = () => {
                     break;
                 case 401:
                     const authStore = useAuthStore();
-                    try {
-                        const { success } = await authStore.dispatchRenewToken();
-                        if (success) {
-                            const token = getToken();
-                            originalRequest.headers.Authorization = `Bearer ${token}`;
-                            return request(originalRequest);
-                        }
-                    } catch (renewError) {
-                        authStore.deleteToken();
-                    }
+                    authStore
+                        .dispatchRenewToken()
+                        .then(({ status, metadata }) => {
+                            if (status === 200) {
+                                const token = getToken();
+                                originalRequest.headers.Authorization = `Bearer ${token}`;
+                                return request(originalRequest);
+                            }
+                        })
+                        .catch(renewError => {
+                            authStore.deleteToken();
+                            authStore.goToLogout();
+                        });
+
                     break;
                 case 403:
                     error.message = "Access denied";

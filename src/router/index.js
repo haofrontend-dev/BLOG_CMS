@@ -41,6 +41,24 @@ const routes = [
                     title: "Tạo bài viết",
                     key: "post"
                 }
+            },
+            {
+                path: "/members/list",
+                name: "memberList",
+                component: () => import("@/views/members/index.vue"),
+                meta: {
+                    title: "Danh sách thành viên",
+                    key: "allMembers"
+                }
+            },
+            {
+                path: "/profile",
+                name: "profile",
+                component: () => import("@/views/profile/index.vue"),
+                meta: {
+                    title: "Thông tin tài khoản",
+                    key: "profile"
+                }
             }
         ]
     },

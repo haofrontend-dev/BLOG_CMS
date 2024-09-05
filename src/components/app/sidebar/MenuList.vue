@@ -5,12 +5,16 @@ import { DotIcon } from "@radix-icons/vue";
 
 import { Accordion, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import AccordionContent from "@/components/ui/accordion/AccordionContent.vue";
+import { useProfileStore } from "@/store/modules/profile";
 
 defineProps({
     menus: Array
 });
 
 const router = useRouter();
+
+const profileStore = useProfileStore();
+
 const currentRoutePath = computed(() => router.currentRoute.value.path);
 const defaultValue = computed(() => router.currentRoute.value.meta?.key);
 
@@ -32,32 +36,33 @@ const getActiveMenu = routes => {
     <div v-for="menu in menus" :key="menu.title" class="flex flex-col mx-3 mb-4">
         <span class="uppercase text-[10px] text-gray-300 font-bold mb-2">{{ menu?.root?.displayName }}</span>
         <Accordion type="single" class="w-full" collapsible :default-value="defaultValue">
-            <AccordionItem
-                v-for="childMenu in menu?.root?.children"
-                :key="childMenu?.name"
-                :value="childMenu?.name"
-                class="border-none"
-            >
-                <AccordionTrigger
-                    class="text-white py-3 px-3 hover:no-underline font-bold hover:bg-gray-500 transition duration-200 rounded-lg"
-                    :class="getActiveMenu(childMenu)"
+            <template v-for="childMenu in menu?.root?.children" :key="childMenu?.name">
+                <AccordionItem
+                    v-if="childMenu.roles.includes(profileStore.profile?.role)"
+                    :value="childMenu?.name"
+                    class="border-none"
                 >
-                    <div class="flex items-center gap-3">
-                        <component :is="childMenu.icon" />
-                        {{ childMenu.displayName }}
-                    </div>
-                </AccordionTrigger>
-                <AccordionContent v-for="route in childMenu?.children" :key="route.name" class="pl-3 mt-2 pb-0">
-                    <div class="rounded-lg hover:bg-gray-500" :class="{ active: currentRoutePath === route?.path }">
-                        <RouterLink class="flex items-center gap-2 py-3 px-1 text-white font-semibold pl-3" :to="route?.path">
-                            <DotIcon />
-                            <span>
-                                {{ route?.displayName }}
-                            </span>
-                        </RouterLink>
-                    </div>
-                </AccordionContent>
-            </AccordionItem>
+                    <AccordionTrigger
+                        class="text-white py-3 px-3 hover:no-underline font-bold hover:bg-gray-500 transition duration-200 rounded-lg"
+                        :class="getActiveMenu(childMenu)"
+                    >
+                        <div class="flex items-center gap-3">
+                            <component :is="childMenu.icon" />
+                            {{ childMenu.displayName }}
+                        </div>
+                    </AccordionTrigger>
+                    <AccordionContent v-for="route in childMenu?.children" :key="route.name" class="pl-3 mt-2 pb-0">
+                        <div class="rounded-lg hover:bg-gray-500" :class="{ active: currentRoutePath === route?.path }">
+                            <RouterLink class="flex items-center gap-2 py-3 px-1 text-white font-semibold pl-3" :to="route?.path">
+                                <DotIcon />
+                                <span>
+                                    {{ route?.displayName }}
+                                </span>
+                            </RouterLink>
+                        </div>
+                    </AccordionContent>
+                </AccordionItem>
+            </template>
         </Accordion>
     </div>
 </template>

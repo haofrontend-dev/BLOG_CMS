@@ -1,5 +1,7 @@
 import { DrawingPinIcon, TokensIcon, PersonIcon } from "@radix-icons/vue";
 
+import { ROLE } from "@/constants/auth";
+
 export default {
     root: {
         name: "/",
@@ -14,6 +16,7 @@ export default {
                         name: "new",
                         displayName: "Bản tin",
                         icon: TokensIcon,
+                        roles: [ROLE.ADMIN, ROLE.EDITOR],
                         children: [
                             {
                                 name: "overview",
@@ -35,9 +38,28 @@ export default {
                 displayName: "Function",
                 children: [
                     {
+                        name: "members",
+                        displayName: "QL Thành viên",
+                        icon: PersonIcon,
+                        roles: [ROLE.ADMIN],
+                        children: [
+                            {
+                                name: "allMembers",
+                                displayName: "Tất cả thành viên",
+                                path: "/members/list"
+                            },
+                            {
+                                name: "memberCreate",
+                                displayName: "Tạo thành viên",
+                                path: "/members/create"
+                            }
+                        ]
+                    },
+                    {
                         name: "post",
                         displayName: "QL Bài viết",
                         icon: DrawingPinIcon,
+                        roles: [ROLE.ADMIN, ROLE.EDITOR],
                         children: [
                             {
                                 name: "postAll",
@@ -59,24 +81,5 @@ export default {
                 ]
             }
         }
-        // {
-        //     root: {
-        //         displayName: "Members",
-        //         children: [
-        //             {
-        //                 name: "member",
-        //                 displayName: "QL Thành viên",
-        //                 icon: PersonIcon,
-        //                 children: [
-        //                     {
-        //                         name: "allUser",
-        //                         displayName: "QL Tất cả thành viên",
-        //                         path: "/"
-        //                     }
-        //                 ]
-        //             }
-        //         ]
-        //     }
-        // }
     ]
 };

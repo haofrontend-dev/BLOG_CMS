@@ -53,18 +53,21 @@ export const useAuthStore = defineStore("auth", {
         },
 
         async dispatchRenewToken() {
-            try {
-                const { status, metadata } = await renewToken();
-                if (status === 200) {
-                    this.setToken(metadata?.accessToken);
-                    return reponseSuscess({});
-                }
-            } catch (error) {
-                return reponseError({
-                    status: error.response?.status
-                });
-            }
-            return reponseError({});
+            return new Promise((resolve, reject) => {
+                renewToken()
+                    .then(({ status, metadata }) => {
+                        if (status === 200) {
+                            this.setToken(metadata?.accessToken);
+                            resolve(reponseSuscess({}));
+                        } else {
+                            this.deleteToken();
+                            reject(reponseError({ status }));
+                        }
+                    })
+                    .catch(error => {
+                        reject(reponseError({ status: error.response?.status }));
+                    });
+            });
         }
     }
 });

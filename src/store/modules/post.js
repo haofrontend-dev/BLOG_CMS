@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 
-import { getPosts } from "@/api/post.api";
+import { getPosts, getPostWithPage } from "@/api/post.api";
 import { reponseSuscess, reponseError } from "@/utils/response";
 
 export const usePostStore = defineStore("post", {
@@ -18,6 +18,14 @@ export const usePostStore = defineStore("post", {
             this.limit = data.limit;
         },
 
+        setPostList(data) {
+            this.postList = data.posts;
+        },
+
+        setLoading(loading) {
+            this.loading = loading;
+        },
+
         async dispatchGetPosts() {
             try {
                 const data = await getPosts();
@@ -32,6 +40,24 @@ export const usePostStore = defineStore("post", {
             }
 
             return reponseError({});
+        },
+
+        async dispatchGetPostsFindPage(page = 1) {
+            this.setLoading(true);
+            try {
+                const data = await getPostWithPage(page);
+
+                if (data) {
+                    this.setPostList(data);
+                    return reponseSuscess({});
+                }
+            } catch (error) {
+                return reponseError({
+                    status: error.response?.status
+                });
+            } finally {
+                this.setLoading(false);
+            }
         }
     }
 });

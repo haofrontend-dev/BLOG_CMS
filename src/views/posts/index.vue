@@ -1,9 +1,8 @@
 <script setup>
-import { ref, defineAsyncComponent } from "vue";
+import { ref } from "vue";
 
-import PostFormAction from "@/components/post/FormAction.vue";
+import PostFormAction from "@/components/post/form-acction.vue";
 
-const ListPost = defineAsyncComponent(() => import("@/components/post/ListPost.vue"));
 const isSelectAll = ref(false);
 
 const handleEdit = () => {
@@ -32,12 +31,6 @@ const handleSeachPost = () => {
             @publish="handlePublish"
             @seach-post="handleSeachPost"
         />
-        <Suspense>
-            <ListPost :select-all="isSelectAll" />
-            <template #fallback>
-                <div>Loading...</div>
-            </template>
-        </Suspense>
     </div>
 </template>
 

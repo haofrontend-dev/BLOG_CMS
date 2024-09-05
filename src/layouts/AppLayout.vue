@@ -1,19 +1,27 @@
 <script setup>
+import { computed, onMounted } from "vue";
 import { RouterView, useRouter } from "vue-router";
+
 import AppSidebar from "@/components/app/sidebar/index.vue";
 import AppHeader from "@/components/app/header/index.vue";
 import AppContainer from "@/components/app/container/index.vue";
 import { useSystemStore } from "@/store/modules/system";
+import { useProfileStore } from "@/store/modules/profile";
 import { cn } from "@/lib/utils";
-import { computed } from "vue";
 
 const router = useRouter();
 const systemStore = useSystemStore();
+const profileStore = useProfileStore();
+
 const handleToggleSidebar = () => {
     systemStore.toogleSidebar();
 };
 
 const titlePage = computed(() => router.currentRoute.value.meta.title);
+
+onMounted(async () => {
+    await profileStore.dispatchGetProfile();
+});
 </script>
 <template>
     <div class="flex font-roboto">
