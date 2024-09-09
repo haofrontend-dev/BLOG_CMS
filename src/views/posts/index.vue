@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from "vue";
 
-import PostFormAction from "@/components/post/form-acction.vue";
+import PostFormAction from "@/components/post/FormAction.vue";
 
 const isSelectAll = ref(false);
 

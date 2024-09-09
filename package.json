@@ -10,6 +10,7 @@
     },
     "dependencies": {
         "@radix-icons/vue": "^1.0.0",
+        "@tanstack/vue-table": "^8.20.5",
         "@vee-validate/zod": "^4.13.2",
         "@vueup/vue-quill": "^1.2.0",
         "@vueuse/core": "^10.11.1",
